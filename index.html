@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenAI o3</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: 3px solid #e8491d;
+        }
+
+        header a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+
+        header ul {
+            padding: 0;
+            margin: 0;
+        }
+
+        header li {
+            float: left;
+            display: inline;
+            padding: 0 20px 0 20px;
+        }
+
+        header #branding {
+            float: left;
+        }
+
+        header #branding h1 {
+            margin: 0;
+        }
+
+        header nav {
+            float: right;
+            margin-top: 10px;
+        }
+
+        header .highlight,
+        header .current a {
+            color: #e8491d;
+            font-weight: bold;
+        }
+
+        header a:hover {
+            color: #ccc;
+            font-weight: bold;
+        }
+
+        #newsletter {
+            padding: 15px;
+            color: #fff;
+            background: #333;
+        }
+
+        #newsletter h1 {
+            float: left;
+        }
+
+        #newsletter form {
+            float: right;
+            margin-top: 15px;
+        }
+
+        #newsletter input[type="email"] {
+            padding: 4px;
+            height: 25px;
+            width: 250px;
+        }
+
+        .button_1 {
+            height: 38px;
+            background: #e8491d;
+            border: 0;
+            padding-left: 20px;
+            padding-right: 20px;
+            color: #fff;
+        }
+
+        #main {
+            padding: 20px;
+        }
+
+        #sidebar {
+            float: right;
+            width: 30%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        #sidebar .quote {
+            background: #f4f4f4;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        article#main-col {
+            float: left;
+            width: 65%;
+        }
+
+        footer {
+            padding: 20px;
+            margin-top: 20px;
+            color: #fff;
+            background-color: #e8491d;
+            text-align: center;
+        }
+
+        /* Media Queries */
+        @media(max-width: 768px) {
+
+            header #branding,
+            header nav,
+            header nav li,
+            #newsletter h1,
+            #newsletter form,
+            #main-col,
+            #sidebar {
+                float: none;
+                text-align: center;
+                width: 100%;
+            }
+
+            header {
+                padding-bottom: 20px;
+            }
+
+            #newsletter form {
+                margin-top: 0px;
+            }
+        }
+
+        /* Custom Styles */
+        h1,
+        h2,
+        h3 {
+            color: #e8491d;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .image-grid img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .image-grid img:hover {
+            transform: scale(1.05);
+        }
+
+        .news-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .news-item a {
+            color: #337ab7;
+            text-decoration: none;
+        }
+
+        .news-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* Interactive Components */
+        .chart-container {
+            width: 100%;
+            height: 300px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .button {
+            background-color: #e8491d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #c73a17;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1><span class="highlight">OpenAI</span> o3</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li class="current"><a href="#">Home</a></li>
+                    <li><a href="#summary">Summary</a></li>
+                    <li><a href="#news">News</a></li>
+                    <li><a href="#images">Images</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="newsletter">
+        <div class="container">
+            <h1>Subscribe to our Newsletter</h1>
+            <form>
+                <input type="email" placeholder="Enter Email...">
+                <button type="submit" class="button_1">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="main">
+        <div class="container">
+            <article id="main-col">
+                <h1 class="page-title">OpenAI o3</h1>
+                <section id="summary">
+                    <h2>Summary of OpenAI o3</h2>
+                    <p>
+                        OpenAI o3 is a reflective generative pre-trained transformer (GPT) model developed by OpenAI as
+                        a successor to OpenAI o1. It is designed to devote additional deliberation time when addressing
+                        questions that require step-by-step logical reasoning.
+                    </p>
+                </section>
+
+                <section id="news">
+                    <h2>Latest News About OpenAI o3</h2>
+                    <div class="news-item">
+                        <a href="https://openai.com/blog/introducing-openai-o3-and-o4-mini">Introducing OpenAI o3 and
+                            o4-mini (OpenAI)</a>
+                    </div>
+                    <div class="news-item">
+                        <a
+                            href="https://www.nytimes.com/2025/04/16/technology/openai-new-reasoning-models-o3-o4-mini.html">OpenAI
+                            Unveils New ‘Reasoning’ Models o3 and o4-mini (The New York Times)</a>
+                    </div>
+                    <div class="news-item">
+                        <a href="https://www.axios.com/2025/04/16/openai-rolls-out-o3-o4-mini">OpenAI rolls out o3 and
+                            o4-mini (Axios)</a>
+                    </div>
+                    <div class="news-item">
+                        <a
+                            href="https://azure.microsoft.com/en-us/blog/o3-and-o4-mini-unlock-enterprise-agent-workflows-with-next-level-reasoning-ai-with-azure-ai-foundry-and-github/">o3
+                            and o4-mini: Unlock enterprise agent workflows with next-level reasoning AI with Azure AI
+                            Foundry and GitHub (Microsoft Azure)</a>
+                    </div>
+                    <div class="news-item">
+                        <a
+                            href="https://www.zdnet.com/article/openai-just-dropped-new-o3-and-o4-mini-reasoning-ai-models-and-a-surprise-agent/">OpenAI
+                            just dropped new o3 and o4-mini reasoning AI models - and a surprise agent (ZDNet)</a>
+                    </div>
+                    <div class="news-item">
+                        <a href="https://techcrunch.com/2025/04/16/openai-launches-a-pair-of-ai-reasoning-models-o3-and-o4-mini/">OpenAI
+                            launches a pair of AI reasoning models, o3 and o4-mini (TechCrunch)</a>
+                    </div>
+                    <div class="news-item">
+                        <a
+                            href="https://mashable.com/article/openai-announces-o3-and-o4-mini-reasoning-models-for-chatgpt">OpenAI
+                            announces o3 and o4-mini reasoning models for ChatGPT (updated) (Mashable)</a>
+                    </div>
+                    <div class="news-item">
+                        <a
+                            href="https://www.cnbc.com/2025/04/16/openai-says-newest-ai-model-can-think-with-images-understanding-diagrams-and-sketches.html">OpenAI
+                            says newest AI model can 'think with images,' understanding diagrams and sketches (CNBC)</a>
+                    </div>
+                    <div class="news-item">
+                        <a href="https://openai.com/research/thinking-with-images">Thinking with images (OpenAI)</a>
+                    </div>
+                    <div class="news-item">
+                        <a href="https://www.theverge.com/2025/04/16/24131361/openai-o3-model-images-reasoning">OpenAI’s
+                            upgraded o3 model can use images when reasoning (The Verge)</a>
+                    </div>
+                </section>
+
+                <section id="interactive-components">
+                    <h2>Interactive Components</h2>
+                    <div class="chart-container">
+                        <!-- Placeholder for a chart.  You would need to integrate a charting library like Chart.js -->
+                        <p>Chart Placeholder - Integrate a charting library for a real chart.</p>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Reasoning</td>
+                                <td>Improved step-by-step logical reasoning.</td>
+                            </tr>
+                            <tr>
+                                <td>Image Understanding</td>
+                                <td>Ability to understand and reason with images.</td>
+                            </tr>
+                            <tr>
+                                <td>Agent Capabilities</td>
+                                <td>Integration with agent workflows.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <button class="button" onclick="alert('Button Clicked!')">Click Me</button>
+                </section>
+
+            </article>
+
+            <aside id="sidebar">
+                <div class="quote">
+                    <h3>What is o3?</h3>
+                    <p>OpenAI o3 is a next-generation AI model designed for enhanced reasoning and understanding.</p>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <section id="images">
+        <div class="container">
+            <h2>Images</h2>
+            <div class="image-grid">
+                <img src="https://static.beebom.com/wp-content/uploads/2025/04/openai-releases-o3-and-o4-mini-reasoning-models.jpg?w=1168&quality=75"
+                    alt="OpenAI o3">
+                <img src="https://www.zdnet.com/a/img/resize/fd932ed062db9fb80edd3e146556d7afb968393d/2025/04/16/3fe00d37-3359-494c-a40f-c35bed3e5a64/openai-launches-new-o3-and-o4-mini-reasoning-ai-models-and-a-surprise-agent.jpg?auto=webp&width=1280"
+                    alt="OpenAI o3">
+                <img src="https://www.cnet.com/a/img/resize/2b4f24d046c260e024d6d16e4ab3b312bee36a4f/hub/2025/04/16/081b190a-06f5-4902-a720-646cbcb19b22/chatgpt-openai-logo-gettyimages-2208674774.jpg?auto=webp&fit=crop&height=675&width=1200"
+                    alt="OpenAI o3">
+                <img src="https://cdn.arstechnica.net/wp-content/uploads/2025/04/o3_benchmarks_1-1024x858.jpg"
+                    alt="OpenAI o3">
+                <img src="https://preview.redd.it/our-new-openai-o3-and-o4-mini-models-further-confirm-that-v0-c0cf01vnr8ve1.png?width=1080&crop=smart&auto=webp&s=a00df30d429d50d232eb267a6a5181cf1d9e041f"
+                    alt="OpenAI o3">
+                <img src="https://static01.nyt.com/images/2025/04/16/multimedia/16biz-openai-sub-ptzl/16biz-openai-sub-ptzl-mediumSquareAt3X.jpg"
+                    alt="OpenAI o3">
+                <img src="https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3e255206-a687-4014-b7d1-7212d8375d16_1280x720.jpeg"
+                    alt="OpenAI o3">
+                <img src="https://bgr.com/wp-content/uploads/2025/04/OpenAI-o3.jpg?quality=82&strip=all"
+                    alt="OpenAI o3">
+                <img src="https://www.visla.us/wp-content/uploads/2025/04/Blog-Thumbnail-1-4.jpg" alt="OpenAI o3">
+                <img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F50850816-7e9b-4ba4-8dee-9d609130b520_1536x1024.png"
+                    alt="OpenAI o3">
+                <img src="https://cdn.prod.website-files.com/62c40e4513da320b60f32941/680005ba222fd2b0717ec055_openai%20o3%20review.jpeg"
+                    alt="OpenAI o3">
+                <img src="https://i.ytimg.com/vi/VGcJct8zNU0/maxresdefault.jpg" alt="OpenAI o3">
+                <img src="https://i.redd.it/27zuwp39m8ve1.png" alt="OpenAI o3">
+                <img src="https://www.maginative.com/content/images/2025/04/Maginative-2025-04-16-at-15.00.59@2x.png"
+                    alt="OpenAI o3">
+                <img src="https://preview.redd.it/ok-o3-and-o4-mini-are-here-and-they-really-has-been-cooking-v0-uy41qsy6d8ve1.jpeg?auto=webp&s=c27dbe48c153b6d805c426d72e01dafb948fb446"
+                    alt="OpenAI o3">
+                <img src="https://i.gzn.jp/img/2025/04/17/openai-o3-o4-mini-released/00.jpg" alt="OpenAI o3">
+                <img src="https://i.ytimg.com/vi/SKu-wk5OZfg/maxresdefault.jpg" alt="OpenAI o3">
+                <img src="https://images.axios.com/7ZjrBHCybJ8laIuYZhQjq6RHbyc=/251x0:1691x1080/1600x1200/2025/04/16/1744816889150.jpg"
+                    alt="OpenAI o3">
+                <img src="https://i.ytimg.com/vi/TGnPcObHdLY/maxresdefault.jpg" alt="OpenAI o3">
+                <img src="https://metr.github.io/autonomy-evals-guide/image/openai_o3_report/rebench_bar.png"
+                    alt="OpenAI o3">
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>OpenAI o3, Copyright &copy; 2025</p>
+    </footer>
+
+    <script>
+        // Basic JavaScript for interactive elements (can be expanded)
+        document.querySelectorAll('.button').forEach(button => {
+            button.addEventListener('mouseover', () => {
+                button.style.backgroundColor = '#c73a17';
+            });
+            button.addEventListener('mouseout', () => {
+                button.style.backgroundColor = '#e8491d';
+            });
+        });
+    </script>
+</body>
+
+</html>
